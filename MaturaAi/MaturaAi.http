@@ -1,0 +1,6 @@
+@MaturaAi_HostAddress = http://localhost:5182
+
+GET {{MaturaAi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
