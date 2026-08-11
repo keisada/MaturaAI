@@ -1,38 +1,66 @@
 ﻿using MaturaAi.Data;
+using MaturaAi.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Rejestracja bazy danych
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// BAZA DANYCH
+var connectionString =
+    builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+
+// CONTROLLERY
 builder.Services.AddControllers();
+
+
+// OPEN API
 builder.Services.AddOpenApi();
 
+
+// ASP.NET IDENTITY
+builder.Services
+    .AddIdentityApiEndpoints<UserApplication>()
+    .AddEntityFrameworkStores<AppDbContext>();
+
+
 var app = builder.Build();
+
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
+
 app.UseHttpsRedirection();
+
+
+// Identity / autoryzacja
+app.UseAuthentication();
 app.UseAuthorization();
+
+
+// GOTOWE ENDPOINTY IDENTITY
+app.MapIdentityApi<UserApplication>();
+
 
 // STRONA GŁÓWNA Z REKORDAMI Z BAZY
 app.MapGet("/", async (AppDbContext db) =>
 {
-    // Pobieramy 3 pierwsze egzaminy
-    var top3Exams = await db.Exam.AsNoTracking().Take(3).ToListAsync();
+    var top3Exams = await db.Exam
+        .AsNoTracking()
+        .Take(3)
+        .ToListAsync();
 
     string rowsHtml;
 
-    // Sprawdzamy, czy w bazie są w ogóle jakieś dane
     if (top3Exams.Count == 0)
     {
-        rowsHtml = "<tr><td colspan='4' style='padding: 15px; text-align: center; color: #ef4444; font-weight: bold;'>Tabela Exam w bazie jest pusta! (Brak rekordów)</td></tr>";
+        rowsHtml =
+            "<tr><td colspan='4' style='padding: 15px; text-align: center; color: #ef4444; font-weight: bold;'>Tabela Exam w bazie jest pusta! (Brak rekordów)</td></tr>";
     }
     else
     {
@@ -86,6 +114,17 @@ app.MapGet("/", async (AppDbContext db) =>
     ", "text/html");
 });
 
-app.MapControllers();
 
+app.MapControllers();
+app.MapGet("/ef-model", (AppDbContext db) =>
+{
+    return db.Model
+        .GetEntityTypes()
+        .Select(e => new
+        {
+            Entity = e.Name,
+            Table = e.GetTableName()
+        })
+        .ToList();
+});
 app.Run();
