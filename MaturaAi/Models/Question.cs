@@ -13,7 +13,6 @@ public class Question
 
     public string TaskNumber { get; set; } = string.Empty;
 
-    // W bazie masz 'char', ale w C# najbezpieczniej mapować to na 'string'
     public string QuestionType { get; set; } = string.Empty;
 
     public string Content { get; set; } = string.Empty;

@@ -13,6 +13,5 @@ public class Answer
 
     public string Content { get; set; } = string.Empty;
 
-    // Typ 'bit' w SQL to po prostu 'bool' w C#
     public bool IsCorrect { get; set; }
 }

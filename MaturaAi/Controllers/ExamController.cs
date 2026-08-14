@@ -1,30 +1,46 @@
 ﻿using MaturaAi.Data;
+using MaturaAi.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace MaturaAi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/exams")]
 public class ExamController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly AppDbContext _dbContext;
+    private readonly ExamService _examService; 
 
-    public ExamController(AppDbContext context)
+    public ExamController (ExamService examService)
     {
-        _context = context;
+        
+        _examService = examService;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetExams()
+    public async Task<IActionResult> GetAllExamsAsync([FromQuery]int page = 1, int pageSize = 10)
     {
-        // Sprawdzamy czy baza odpowiada
-        if (!await _context.Database.CanConnectAsync())
-        {
-            return StatusCode(500, "Brak połączenia z bazą Azure SQL!");
-        }
-
-        var exams = await _context.Exam.AsNoTracking().ToListAsync();
-        return Ok(exams);
+        var result = await _examService.GetAllExamsAsync(page, pageSize);
+        return Ok(result);
     }
+
+    [HttpGet("{id}")]
+
+    public async Task<IActionResult> GetExamByIdAsync([FromRoute] int id)
+    {
+        var result= await  _examService.GetExamByIdAsync(id);
+        if (result == null) { return NotFound(); }
+        return Ok(result);
+    }
+
+    [HttpGet("{id}/questions")]
+
+    public async Task<IActionResult> GetQuestionsByExamIdAsync([FromRoute] int id)
+    {
+        return Ok(await _examService.GetQuestionsForExamAsync(id));
+    }
+
+
+    
 }

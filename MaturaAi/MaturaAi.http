@@ -1,6 +1,9 @@
-@MaturaAi_HostAddress = http://localhost:5182
+@MaturaAi_HostAddress = https://localhost:7157
 
-GET {{MaturaAi_HostAddress}}/weatherforecast/
-Accept: application/json
+POST {{MaturaAi_HostAddress}}/register
+Content-Type: application/json
 
-###
+{
+  "email": "adam@test.pl",
+  "password": "Test123!"
+}

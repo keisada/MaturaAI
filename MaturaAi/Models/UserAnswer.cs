@@ -7,6 +7,8 @@
         public int ExamAttemptId { get; set; }
         public int QuestionId { get; set; }
 
-        public string Answer { get; set; } = string.Empty;
+        public int? AnswerId { get; set; }  
+
+        public string? AnswerText { get; set; }
     }
 }
