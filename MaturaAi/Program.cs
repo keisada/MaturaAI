@@ -23,6 +23,7 @@ builder.Services.AddControllers();
 // SERVICES
 builder.Services.AddScoped<ExamService>();
 builder.Services.AddScoped<ExamAttemptService>();
+builder.Services.AddHttpClient<IAiService, GeminiAiService>();
 
 // OPEN API
 builder.Services.AddOpenApi();

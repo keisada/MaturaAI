@@ -15,8 +15,7 @@ public class QuestionController : ControllerBase
         _context = context;
     }
 
-    // GET: api/question
-    // Pobiera wszystkie pytania
+
     [HttpGet]
     public async Task<IActionResult> GetAllQuestions()
     {
@@ -24,8 +23,7 @@ public class QuestionController : ControllerBase
         return Ok(questions);
     }
 
-    // GET: api/question/exam/5
-    // Zwraca tylko pytania przypisane do konkretnego egzaminu (ExamId)
+
     [HttpGet("exam/{examId}")]
     public async Task<IActionResult> GetQuestionsByExam(int examId)
     {

@@ -18,6 +18,8 @@ public class AppDbContext : IdentityDbContext<UserApplication>
     public DbSet<ExamAttempt> ExamAttempts { get; set; }
     public DbSet<UserAnswer> UserAnswers { get; set; }
 
+    public DbSet<AiHint> Hints { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -40,6 +42,11 @@ public class AppDbContext : IdentityDbContext<UserApplication>
         });
 
         modelBuilder.Entity<ExamAttempt>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+        });
+
+        modelBuilder.Entity<AiHint>(entity =>
         {
             entity.HasKey(e => e.Id);
         });
@@ -76,6 +83,14 @@ public class AppDbContext : IdentityDbContext<UserApplication>
             entity.HasOne<UserApplication>()
                 .WithMany()
                 .HasForeignKey(e => e.UserId);
+        });
+
+        modelBuilder.Entity<AiHint>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasOne<Question>().
+            WithOne().
+            HasForeignKey<AiHint>(e => e.QuestionId);
         });
     }
 }

@@ -9,7 +9,6 @@ namespace MaturaAi.Controllers;
 [Route("api/exams")]
 public class ExamController : ControllerBase
 {
-    private readonly AppDbContext _dbContext;
     private readonly ExamService _examService; 
 
     public ExamController (ExamService examService)

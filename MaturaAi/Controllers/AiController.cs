@@ -1,26 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MaturaAi.DTOs;
+﻿using MaturaAi.DTOs;
 using MaturaAi.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
+namespace MaturaAi.Controllers;
 
-namespace MaturaAi.Controllers
+[ApiController]
+[Route("api/ai")]
+[Authorize]
+public class AiController : ControllerBase
 {
-    [ApiController]
-    [Route("api/ai")]
-    public class AiController :ControllerBase
+    private readonly IAiService _aiService;
+
+    public AiController(IAiService aiService)
     {
-        private readonly IAiService _aiService; 
+        _aiService = aiService;
+    }
 
-        public AiController(IAiService aiService)
-        {
-            _aiService = aiService;
-        }
+    [HttpPost("hint")]
+    public async Task<IActionResult> GetHintAsync(
+        [FromBody] AiHintRequest request)
+    {
+        var result = await _aiService.GetAiHintAsync(request);
 
-        [HttpPost("hint")]
-        public async Task<ActionResult<AiHintResponse>> GetHint(AiHintRequest request)
-        {
-            var response = await _aiService.GetAiHintAsync(request);
-            return Ok(response);
-        }
+        return Ok(result);
     }
 }
