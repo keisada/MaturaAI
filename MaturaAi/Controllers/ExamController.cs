@@ -1,4 +1,4 @@
-﻿using MaturaAi.Data;
+using MaturaAi.Data;
 using MaturaAi.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -41,5 +41,15 @@ public class ExamController : ControllerBase
     }
 
 
+    [HttpPost("{id}/evaluate")]
+    public async Task<IActionResult> EvaluateExamAsync([FromRoute] int id, [FromBody] Dictionary<int, int> answers)
+    {
+        var result = await _examService.EvaluateExamAnswersAsync(id, answers);
+        return Ok(new { 
+            score = result.Score, 
+            totalQuestions = result.CorrectAnswers.Count,
+            correctAnswers = result.CorrectAnswers 
+        });
+    }
     
 }

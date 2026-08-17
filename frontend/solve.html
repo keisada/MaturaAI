@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rozwiązywanie Egzaminu - MaturaAI</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX: Szybkie renderowanie matematyki w przeglądarce -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+    <div class="page-container">
+        <div class="page-header">
+            <h1 class="page-title" id="examTitle">Ładowanie matury...</h1>
+            <button class="secondary-btn" onclick="window.location.href='exams.html'">Powrót</button>
+        </div>
+        
+        <div id="questionsContainer" class="questions-list">
+            <div class="loading">Ładowanie pytań...</div>
+        </div>
+
+        <div class="actions-footer" id="actionsFooter" style="display: none;">
+            <button class="primary-btn" id="checkBtn">Sprawdź odpowiedzi!</button>
+        </div>
+        
+        <div id="scoreContainer" class="score-container" style="display: none;">
+            <h2 id="scoreText">Twój wynik: 0/0</h2>
+        </div>
+    </div>
+    <script src="solve.js?v=2"></script>
+</body>
+</html>

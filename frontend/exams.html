@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wybór Matury - MaturaAI</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-container">
+        <div class="page-header">
+            <h1 class="page-title">Wybierz maturę</h1>
+            <input type="text" id="searchInput" class="search-box" placeholder="Szukaj przedmiotu lub nazwy...">
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Przedmiot</th>
+                        <th>Nazwa matury</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr><td colspan="3" class="loading">Ładowanie danych z serwera...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="exams.js"></script>
+</body>
+</html>

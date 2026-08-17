@@ -1,4 +1,4 @@
-﻿using MaturaAi.Data;
+using MaturaAi.Data;
 using MaturaAi.Models;
 using MaturaAi.Services;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +25,15 @@ builder.Services.AddScoped<ExamService>();
 builder.Services.AddScoped<ExamAttemptService>();
 builder.Services.AddHttpClient<IAiService, GeminiAiService>();
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
 // OPEN API
 builder.Services.AddOpenApi();
 
@@ -42,6 +51,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
